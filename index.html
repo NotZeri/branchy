@@ -22,7 +22,7 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:rgba(255,255,255,
 textarea{resize:vertical;min-height:60px}
 input::placeholder,textarea::placeholder{color:#3f3f46}
 select option{background:#131316;color:#e4e4e7}
-/* ---- top bar ---- */
+
 .topbar{display:flex;align-items:center;gap:8px;padding:11px 16px;background:var(--bg);border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap;z-index:30}
 .logo{font-weight:600;font-size:15px;color:var(--bright);letter-spacing:-.02em;white-space:nowrap}
 .dblock{display:flex;align-items:center;gap:2px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:2px 4px}
@@ -36,7 +36,7 @@ select option{background:#131316;color:#e4e4e7}
 .tab{padding:5px 12px;border-radius:5px;font-weight:500;font-size:12.5px;color:var(--dim);transition:color .2s,background .2s}
 .tab:hover{color:var(--mut)}
 .tab.on{background:rgba(255,255,255,.07);color:var(--bright)}
-/* ---- buttons / shared ---- */
+
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:var(--bright);font-weight:500;padding:10px 16px;border-radius:8px;transition:background .2s,border-color .2s;text-align:center}
 .btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.14)}
 .btn small{font-weight:400;font-size:10.5px;color:var(--mut);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -90,7 +90,7 @@ select option{background:#131316;color:#e4e4e7}
 .ucbox{width:44px;height:44px;margin:0 auto 14px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:#3f3f46;font-size:15px}
 .uc-title{font-size:14px;color:#3f3f46;font-weight:500}
 .uc-sub{font-size:12px;color:#52525b;margin-top:4px}
-/* ---- run: checklist ---- */
+
 .runscroll{flex:1;overflow-y:auto;padding:28px 16px calc(84px + env(safe-area-inset-bottom))}
 .bar{height:2px;background:rgba(255,255,255,.06);border-radius:1px;overflow:hidden}
 .fill{height:100%;background:rgba(255,255,255,.35);transition:width .3s;border-radius:1px}
@@ -126,7 +126,7 @@ select option{background:#131316;color:#e4e4e7}
 .chip{font-size:10px;font-weight:500;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);color:var(--dim);white-space:nowrap}
 .chip.ok{color:var(--ok)}
 .chip.miss{color:var(--miss)}
-/* ---- end screen ---- */
+
 .endcard{text-align:center}
 .bigfinish{width:44px;height:44px;margin:6px auto 14px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:var(--ok);font-size:16px}
 .rtitle{font-size:20px;font-weight:600;color:var(--bright);letter-spacing:-.02em;margin:0 0 4px}
@@ -135,7 +135,7 @@ select option{background:#131316;color:#e4e4e7}
 .score b{font-size:18px;display:block;color:var(--bright);font-weight:600}
 .sum{margin-top:6px;text-align:left;display:flex;flex-direction:column;gap:6px}
 .sumrow{display:flex;gap:8px;align-items:center;font-size:13px;background:var(--panel2);border:1px solid rgba(255,255,255,.04);border-radius:8px;padding:8px 11px;color:var(--mut)}
-/* ---- overlays ---- */
+
 .emodal{position:fixed;inset:0;background:rgba(9,9,11,.78);z-index:70;display:flex;align-items:center;justify-content:center;padding:20px}
 .emodal .card{max-width:340px;margin:0}
 .emodal .card b{font-weight:500;color:var(--txt);font-size:14px}
@@ -144,10 +144,10 @@ select option{background:#131316;color:#e4e4e7}
 .egrid button:hover{background:rgba(255,255,255,.06)}
 #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);background:#e4e4e7;color:#09090b;padding:10px 16px;border-radius:8px;font-weight:500;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:88vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-/* ---- fade-in ---- */
+
 .fade{opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
 .fade.show{opacity:1;transform:translateY(0)}
-/* ---- footer ---- */
+
 .foot{margin-top:44px;padding-top:16px;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#3f3f46}
 @media(max-width:620px){
 .btnrow{flex-direction:column}
@@ -164,7 +164,7 @@ select option{background:#131316;color:#e4e4e7}
 <noscript>This app needs JavaScript enabled.</noscript>
 <script>
 'use strict';
-/* ================= utils / state ================= */
+
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>'s'+Math.random().toString(36).slice(2,10);
@@ -220,7 +220,7 @@ function shrink(file,cb){
 }
 const STEPS_EMO='⏰ 🌅 💧 🧘 🚿 👕 🍳 🪥 💊 🧴 💄 📚 💪 🥗 ☕ 🐶 🎧 📝 🛏️ 🚶 🧺 🗑️ 🧠 🎯 ✨ 🛟 🧊 🤸 🦷 🎒'.split(' ');
 const ROUT_EMO='☀️ 🌙 💪 🧘 📚 🐶 🧴 🍳 🎯 🌱 🦷 🎒 💊 🖥️ 🏠 ✨'.split(' ');
-/* ================= run engine (timed auto-branch) ================= */
+
 function curStep(){return stepById(R(),run.current);}
 function setDeadline(){const st=curStep();run.deadline=st&&+st.min>0?Date.now()+st.min*60000:null;run.timedOut=false;}
 function startRun(r){
@@ -256,7 +256,7 @@ function tick(){
  }
  if(over&&!run.timedOut){run.timedOut=true;beep2();toast("time's up — done or miss, your call");}
 }
-/* ================= topbar ================= */
+
 function topbarHTML(){
  const rs=state.routines,r=R();
  const tabs=ui.view==='run'
@@ -282,7 +282,7 @@ function targetOpts(r,s,kind){
  h+=`<option value="END"${cur==='END'?' selected':''}>🏁 end routine</option>`;
  return h;
 }
-/* ================= edit view: checklist ================= */
+
 function stepRowHTML(r,s){
  const open=ui.openId===s.id,isStart=effStart(r)===s.id,timed=+s.min>0;
  const head=`<div class="shead" data-act="step-toggle" data-sid="${s.id}">
@@ -333,7 +333,7 @@ function editShell(){
   ${r.steps.length?`<div class="foot${ui._faded?'':' fade'}"><span>branchy</span><span>everything stays in this browser</span></div>`:''}
  </div></div>`;
 }
-/* ================= run view: checklist ================= */
+
 function runHTML(){
  const r=R(),st=curStep();
  if(run.finished||!st)return endHTML(r);
@@ -389,7 +389,7 @@ function endHTML(r){
   <div class="btnrow"><button class="btn big" data-act="run-again">run again</button>
   <button class="btn ghost big" data-act="run-exit">back to checklist</button></div></div></div></div>`;
 }
-/* ================= render dispatcher ================= */
+
 function render(keep=true){
  const lw=$('.listwrap'),scTop=lw?lw.scrollTop:0;
  if(ui.view==='edit'){
@@ -410,7 +410,7 @@ function observeFades(){
  if(!window.__fo)window.__fo=new IntersectionObserver(es=>{es.forEach(n=>{if(n.isIntersecting){n.target.classList.add('show');window.__fo.unobserve(n.target);}});},{threshold:.15});
  els.forEach(el=>window.__fo.observe(el));
 }
-/* ================= events ================= */
+
 document.addEventListener('click',e=>{
  const b=e.target.closest('[data-act]');if(!b)return;
  const act=b.dataset.act,sid=b.dataset.sid;
@@ -485,14 +485,14 @@ document.addEventListener('change',e=>{
  if(ch==='done'){s.doneTarget=t.value;save();render(false);}
  else if(ch==='miss'){s.missedTarget=t.value;save();render(false);}
 });
-/* ================= emoji modal ================= */
+/* ================= emo dih ================= */
 function emoHTML(){
  const list=ui.pick.kind==='routine'?ROUT_EMO:STEPS_EMO;
  return `<div class="emodal" id="emoOverlay" data-act="emo-overlay"><div class="card"><b>pick an emoji</b>
   <div class="egrid">${list.map(x=>`<button data-act="emo-set" data-emo="${x}">${x}</button>`).join('')}</div>
   <div style="margin-top:10px;text-align:right"><button class="btn ghost sm" data-act="emo-cancel">Cancel</button></div></div></div>`;
 }
-/* ================= init ================= */
+
 render(false);
 </script>
 </body>
