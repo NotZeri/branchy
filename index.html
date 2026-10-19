@@ -228,7 +228,7 @@ function shrink(file,cb){
 }
 const STEPS_EMO='⏰ 🌅 💧 🧘 🚿 👕 🍳 🪥 💊 🧴 💄 📚 💪 🥗 ☕ 🐶 🎧 📝 🛏️ 🚶 🧺 🗑️ 🧠 🎯 ✨ 🛟 🧊 🤸 🦷 🎒'.split(' ');
 const ROUT_EMO='☀️ 🌙 💪 🧘 📚 🐶 🧴 🍳 🎯 🌱 🦷 🎒 💊 🖥️ 🏠 ✨'.split(' ');
-
+/* ================= run engine (timed auto-branch) ================= */
 function curStep(){return stepById(R(),run.current);}
 function setDeadline(){const st=curStep();run.deadline=st&&+st.min>0?Date.now()+st.min*60000:null;run.timedOut=false;}
 function startRun(r){
@@ -279,7 +279,7 @@ function tick(){
  }
  if(over&&!run.timedOut){run.timedOut=true;beep2();toast("time's up — done or miss, your call");}
 }
-
+/* ================= topbar ================= */
 function topbarHTML(){
  const rs=state.routines,r=R();
  const tabs=ui.view==='run'
@@ -587,14 +587,14 @@ function xHTML(){
   <div class="btnrow"><button class="btn big" data-act="x-import-go">import</button></div>
   <div style="margin-top:10px;text-align:right"><button class="btn ghost sm" data-act="x-close">close</button></div></div></div>`;
 }
-/* ================= emo dih ================= */
+
 function emoHTML(){
  const list=ui.pick.kind==='routine'?ROUT_EMO:STEPS_EMO;
  return `<div class="emodal" id="emoOverlay" data-act="emo-overlay"><div class="card"><b>pick an emoji</b>
   <div class="egrid">${list.map(x=>`<button data-act="emo-set" data-emo="${x}">${x}</button>`).join('')}</div>
   <div style="margin-top:10px;text-align:right"><button class="btn ghost sm" data-act="emo-cancel">Cancel</button></div></div></div>`;
 }
-=
+
 render(false);
 </script>
 </body>
