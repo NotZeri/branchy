@@ -70,7 +70,7 @@ select option{background:#131316;color:#e4e4e7}
 .imgbtn:hover{border-color:rgba(255,255,255,.22);color:var(--mut)}
 .imgbtn input{display:none}
 .emobtn{font-size:20px;background:var(--panel2);border-radius:8px;width:46px;height:42px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--line)}
-/* ---- edit: checklist list ---- */
+
 .listwrap{flex:1;overflow-y:auto;padding:28px 16px calc(84px + env(safe-area-inset-bottom))}
 .wrap{max-width:640px;margin:0 auto}
 #app .card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:10px;transition:border-color .2s,background .2s}
@@ -126,6 +126,8 @@ select option{background:#131316;color:#e4e4e7}
 .chip{font-size:10px;font-weight:500;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);color:var(--dim);white-space:nowrap}
 .chip.ok{color:var(--ok)}
 .chip.miss{color:var(--miss)}
+.chip.earn{color:var(--ok)}
+.tag.earn{color:var(--ok)}
 
 .endcard{text-align:center}
 .bigfinish{width:44px;height:44px;margin:6px auto 14px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:var(--ok);font-size:16px}
@@ -137,11 +139,15 @@ select option{background:#131316;color:#e4e4e7}
 .sumrow{display:flex;gap:8px;align-items:center;font-size:13px;background:var(--panel2);border:1px solid rgba(255,255,255,.04);border-radius:8px;padding:8px 11px;color:var(--mut)}
 
 .emodal{position:fixed;inset:0;background:rgba(9,9,11,.78);z-index:70;display:flex;align-items:center;justify-content:center;padding:20px}
-.emodal .card{max-width:340px;margin:0}
+.emodal .card{max-width:340px;margin:0;max-height:86vh;overflow-y:auto;background:#111114;border:1px solid rgba(255,255,255,.08)}
 .emodal .card b{font-weight:500;color:var(--txt);font-size:14px}
 .egrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}
 .egrid button{font-size:20px;background:var(--panel2);border:1px solid rgba(255,255,255,.04);border-radius:8px;padding:8px 0;transition:background .2s}
 .egrid button:hover{background:rgba(255,255,255,.06)}
+.chkrow{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12.5px;color:var(--mut)}
+.chkrow input{width:auto;accent-color:#71717a}
+#xcode{height:130px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all;color:var(--mut)}
+#xin{height:90px}
 #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);background:#e4e4e7;color:#09090b;padding:10px 16px;border-radius:8px;font-weight:500;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:88vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -176,17 +182,17 @@ function beep(f){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)(
 function beep2(){beep(880);setTimeout(()=>beep(660),170);}
 const LS='branchy_v2';
 function sample(){
- const S=(id,title,emoji,desc,min,done,miss,rec)=>({id,title,desc,emoji,img:null,min,doneTarget:done||'',missedTarget:miss||'',recovery:!!rec});
+ const S=(id,title,emoji,desc,min,done,miss,rec,pts)=>({id,title,desc,emoji,img:null,min,pts:pts||0,doneTarget:done||'',missedTarget:miss||'',recovery:!!rec});
  return {id:'r-sample',name:'Morning Rescue',emoji:'☀️',startId:'s1',steps:[
-  S('s1','Wake up at 6:30','⏰','Alarm rings — feet on the floor before the timer hits 0:00. Running late? Mark it missed and the snooze recovery plan kicks in. 👀',1,'','r1'),
-  S('s2','Drink a glass of water','💧','Big glass of water to wake your body up. Rehydration first, phone later.',1,'',''),
-  S('s3','Stretch for 5 minutes','🧘','Neck, shoulders, hamstrings. Short on time? Miss it and the recovery path folds stretching into your day later.',2,'','r4'),
-  S('s4','Shower','🚿','Warm shower to fully switch on. Overslept badly? Miss this and take the wipe-down route.',3,'','r5'),
-  S('s5','Get dressed','👕','Pick your outfit the night before and this becomes a 30-second step.',2,'',''),
-  S('s6','Breakfast & out the door','🍳','Something with protein. Keys, wallet, headphones — go win the day.',5,'END','END'),
-  S('r1','Snoozed? Quick reset','🧊','You missed wake-up — no guilt. Splash cold water, open the curtains, 3 deep breaths, then jump back in at the water step.',2,'s2','s4',1),
-  S('r4','Skip stretch: fold it in later','🤸','Do 60 seconds of desk stretches mid-morning instead. Head to the shower now.',1,'s4','END',1),
-  S('r5','Wipe-down & freshen up','🪥','No time for a full shower: face wipe, deodorant, brush teeth, dry shampoo. You still walk out fresh.',2,'s6','END',1)
+  S('s1','Wake up at 6:30','⏰','Alarm rings — feet on the floor before the timer hits 0:00. Running late? Mark it missed and the snooze recovery plan kicks in. 👀',1,'','r1',0,10),
+  S('s2','Drink a glass of water','💧','Big glass of water to wake your body up. Rehydration first, phone later.',1,'','','',5),
+  S('s3','Stretch for 5 minutes','🧘','Neck, shoulders, hamstrings. Short on time? Miss it and the recovery path folds stretching into your day later.',2,'','r4',0,15),
+  S('s4','Shower','🚿','Warm shower to fully switch on. Overslept badly? Miss this and take the wipe-down route.',3,'','r5',0,10),
+  S('s5','Get dressed','👕','Pick your outfit the night before and this becomes a 30-second step.',2,'','','',10),
+  S('s6','Breakfast & out the door','🍳','Something with protein. Keys, wallet, headphones — go win the day.',5,'END','END',0,25),
+  S('r1','Snoozed? Quick reset','🧊','You missed wake-up — no guilt. Splash cold water, open the curtains, 3 deep breaths, then jump back in at the water step.',2,'s2','s4',1,5),
+  S('r4','Skip stretch: fold it in later','🤸','Do 60 seconds of desk stretches mid-morning instead. Head to the shower now.',1,'s4','END',1,5),
+  S('r5','Wipe-down & freshen up','🪥','No time for a full shower: face wipe, deodorant, brush teeth, dry shampoo. You still walk out fresh.',2,'s6','END',1,5)
  ]};
 }
 function loadState(){try{const j=JSON.parse(localStorage.getItem(LS));if(j&&Array.isArray(j.routines))return j;}catch(e){}return {routines:[sample()]};}
@@ -194,6 +200,8 @@ let state=loadState();
 function save(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){toast('storage full — try a smaller image');}}
 let ui={view:'edit',rid:state.routines[0]?state.routines[0].id:null,openId:null,pick:null};
 let run=null,tickId=null;
+let bank=(()=>{try{return Math.max(0,parseInt(localStorage.getItem('branchy_bank'),10)||0);}catch(e){return 0;}})();
+function saveBank(){try{localStorage.setItem('branchy_bank',String(bank));}catch(e){}}
 const R=()=>state.routines.find(r=>r.id===ui.rid);
 const stepById=(r,id)=>r?r.steps.find(s=>s.id===id):undefined;
 function effStart(r){if(r.startId&&stepById(r,r.startId))return r.startId;return r.steps[0]?r.steps[0].id:null;}
@@ -212,7 +220,7 @@ function nextLabel(r,step,kind){
  const n=resolveNext(r,step,kind);
  return n?('next: '+(n.title||'untitled')):'finish';
 }
-function newStep(){return {id:uid(),title:'',desc:'',emoji:'✨',img:null,min:0,doneTarget:'',missedTarget:'',recovery:false};}
+function newStep(){return {id:uid(),title:'',desc:'',emoji:'✨',img:null,min:0,pts:0,doneTarget:'',missedTarget:'',recovery:false};}
 function shrink(file,cb){
  const fr=new FileReader();
  fr.onload=e=>{const im=new Image();im.onload=()=>{const M=900,k=Math.min(1,M/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*k));c.height=Math.max(1,Math.round(im.height*k));c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.82));};im.src=e.target.result;};
@@ -227,18 +235,33 @@ function startRun(r){
  try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
  if(!r||!r.steps.length){toast('Add at least one step first');return;}
  ui.rid=r.id;
- run={rid:r.id,visited:[],current:effStart(r),t0:Date.now(),deadline:null,finished:false,timedOut:false};
+ run={rid:r.id,visited:[],current:effStart(r),t0:Date.now(),deadline:null,finished:false,timedOut:false,earned:0,banked:false};
  ui.view='run';render(false);setDeadline();
  if(!tickId)tickId=setInterval(tick,250);
 }
+function finishRun(){
+ run.finished=true;run.deadline=null;
+ if(tickId){clearInterval(tickId);tickId=null;}
+ if(!run.banked&&run.earned>0){run.banked=true;bank+=run.earned;saveBank();}
+}
 function advance(result){
  if(!run||run.finished)return;
- const st=curStep();if(!st){run.finished=true;render(true);return;}
+ const st=curStep();if(!st){finishRun();render(true);return;}
+ const p=result==='done'?(+st.pts||0):0;
  run.visited.push({id:st.id,result});
+ if(p)run.earned+=p;
  const nx=resolveNext(R(),st,result);
  if(nx){run.current=nx.id;setDeadline();render(true);
   if(result==='missed')toast('missed — taking the recovery path');
- }else{run.finished=true;run.deadline=null;clearInterval(tickId);tickId=null;render(true);}
+  else if(p)toast('+'+p+' pts');
+ }else{finishRun();render(true);}
+}
+function undoStep(){
+ if(!run||!run.visited.length)return;
+ const last=run.visited.pop();
+ if(last.result==='done'){const st=stepById(R(),last.id),p=st?(+st.pts||0):0;if(p)run.earned=Math.max(0,(run.earned||0)-p);}
+ run.current=last.id;run.finished=false;setDeadline();render(true);
+ if(!tickId)tickId=setInterval(tick,250);
 }
 function tick(){
  if(!run||ui.view!=='run')return;
@@ -270,6 +293,7 @@ function topbarHTML(){
   <button class="tbtn" data-act="new" title="New routine">+</button>
   <button class="tbtn" data-act="del" title="Delete routine">×</button>
   <span class="grow"></span>
+  ${bank>0?`<span class="chip" title="points bank">${bank} pts</span>`:''}
   <div class="tabs">${tabs}</div>
  </div>`;
 }
@@ -290,6 +314,7 @@ function stepRowHTML(r,s){
   <span class="scol"><span class="stitle" data-tid="${s.id}">${esc(s.title)||'Untitled step'}</span>
    <span class="snext">✓ ${esc(nextLabel(r,s,'done'))} · ✗ ${esc(nextLabel(r,s,'miss'))}</span></span>
   ${timed?`<span class="tag">${+s.min}m</span>`:''}
+  ${+s.pts>0?`<span class="tag earn">+${+s.pts}</span>`:''}
   ${isStart?'<span class="tag start">start</span>':s.recovery?'<span class="tag">branch</span>':''}
   <span class="chev${open?' up':''}">▾</span></div>`;
  const body=!open?'':`<div class="sbody">
@@ -298,6 +323,8 @@ function stepRowHTML(r,s){
   <div class="irow"><div class="ilbl">Notes</div><textarea data-in="desc" data-sid="${s.id}" placeholder="How exactly do you do this step?">${esc(s.desc)}</textarea></div>
   <div class="irow"><div class="ilbl">Time limit</div>
    <div class="brow"><input class="minin" type="number" min="0" max="999" step="0.5" data-in="min" data-sid="${s.id}" value="${+s.min||0}"><span class="mini">min · 0 = no limit · countdown hits 0:00, you pick done or miss</span></div></div>
+  <div class="irow"><div class="ilbl">Points</div>
+   <div class="brow"><input class="minin" type="number" min="0" max="99999" step="1" data-in="pts" data-sid="${s.id}" value="${+s.pts||0}"><span class="mini">pts · what this step pays out when you mark it done — fixed during a run</span></div></div>
   <div class="irow"><div class="ilbl">Photo</div><div class="media">
    ${s.img?`<div class="thumb"><img src="${s.img}" alt=""><button class="delimg" data-act="img-del" data-sid="${s.id}">✕</button></div>`:`<label class="imgbtn"><span>add image</span><input type="file" accept="image/*" data-img="${s.id}"></label>`}
    <span class="mini grow">Shows while this step is running.</span></div></div>
@@ -316,7 +343,7 @@ function stepRowHTML(r,s){
 }
 function editShell(){
  const r=R();
- if(!r)return topbarHTML()+`<div class="listwrap"><div class="wrap"><div class="emptystep fade"><div class="ucbox">＋</div><div class="uc-title">no routines</div><div class="uc-sub">tap + in the top bar to make one</div></div></div></div>`;
+ if(!r)return topbarHTML()+`<div class="listwrap"><div class="wrap"><div class="emptystep fade"><div class="ucbox">＋</div><div class="uc-title">no routines</div><div class="uc-sub">tap + in the top bar to make one, or bring one over from another device</div><div style="margin-top:16px"><button class="btn2" data-act="x-import">paste a routine code</button></div></div></div></div>`;
  const head=`<div class="card rhead${ui._faded?'':' fade'}">
   <div class="brow"><button class="emobtn" data-act="pick-rt">${r.emoji||'🎯'}</button>
    <input data-in="rname" value="${esc(r.name)}" placeholder="Routine name"></div>
@@ -330,6 +357,8 @@ function editShell(){
   <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px"><button class="btn2" data-act="add-step">+ add step</button><button class="btn2" data-act="sample">load sample</button></div></div>`;
  return topbarHTML()+`<div class="listwrap"><div class="wrap"><div class="sect-label">routine</div>${head}${rows?`<div class="sect-label">steps</div>`:''}${rows}${empty}
   ${r.steps.length?'<button class="btn ghost wide" data-act="add-step">+ add step</button>':''}
+  <div class="sect-label">save / transfer</div>
+  <div class="brow" style="margin-bottom:20px"><button class="btn2" data-act="x-export">share this routine</button><button class="btn2" data-act="x-import">import a code</button></div>
   ${r.steps.length?`<div class="foot${ui._faded?'':' fade'}"><span>branchy</span><span>everything stays in this browser</span></div>`:''}
  </div></div>`;
 }
@@ -340,6 +369,7 @@ function runHTML(){
  const last=new Map();run.visited.forEach(v=>last.set(v.id,v));
  const uniq=last.size;
  const prog=Math.round(uniq/Math.max(1,r.steps.length)*100);
+ const anyPts=r.steps.some(s=>+s.pts>0);
  const rows=r.steps.map(s=>{
   const v=last.get(s.id),cur=s.id===run.current,timed=+s.min>0;
   const cls=cur?'cur':v?(v.result==='done'?'done':'miss'):'pending';
@@ -356,7 +386,7 @@ function runHTML(){
      <div class="tnum${over||urgent?' urgent':''}" id="tnum">${over?`time's up — over by ${fmt(-rem)}`:`${fmt(rem)} left`}</div>`:''}
     ${s.desc?`<p class="rdesc">${esc(s.desc)}</p>`:''}
     <div class="btnrow">
-     <button class="btn ok" data-act="run-done"><b>✓ done</b><small>→ ${esc(nextLabel(r,s,'done'))}</small></button>
+     <button class="btn ok" data-act="run-done"><b>✓ done</b><small>${+s.pts>0?'+'+(+s.pts)+' pts · ':''}→ ${esc(nextLabel(r,s,'done'))}</small></button>
      <button class="btn miss" data-act="run-miss"><b>✗ missed it</b><small>→ ${esc(nextLabel(r,s,'miss'))}</small></button>
     </div></div>`;
   }
@@ -364,13 +394,14 @@ function runHTML(){
    <div class="cbox${cur?' tap':''}"${cur?' data-act="run-done" title="Mark done"':''}>${mark}</div>
    <div class="cgrow"><div class="cline"><span class="cemo">${s.emoji||'✨'}</span><span class="ctitle">${esc(s.title)||'Untitled step'}</span>
     ${timed?`<span class="tag">${+s.min}m</span>`:''}
+    ${+s.pts>0?`<span class="tag${v&&v.result==='done'?' earn':''}">+${+s.pts}</span>`:''}
     ${s.recovery?'<span class="tag">branch</span>':''}</div>
     ${!cur&&s.desc?`<div class="cdesc">${esc(s.desc)}</div>`:''}
     ${inner}</div></div>`;
  }).join('');
  return topbarHTML()+`<div class="runscroll"><div class="wrap">
   <div class="bar"><div class="fill" style="width:${prog}%"></div></div>
-  <div class="runmeta"><span id="elapsed">${fmt((Date.now()-run.t0)/1000)}</span><span>${uniq} / ${r.steps.length} steps</span></div>
+  <div class="runmeta"><span id="elapsed">${fmt((Date.now()-run.t0)/1000)}</span>${anyPts?`<span class="chip earn">+${run.earned||0} pts</span>`:''}<span>${uniq} / ${r.steps.length} steps</span></div>
   ${rows}
   <div style="text-align:center;margin:14px 0 8px"><button class="btn ghost sm" data-act="run-back" ${run.visited.length?'':'disabled'}>undo</button></div>
  </div></div>`;
@@ -379,12 +410,14 @@ function endHTML(r){
  const done=run.visited.filter(v=>v.result==='done').length,miss=run.visited.length-done;
  const secs=(Date.now()-run.t0)/1000;
  const rows=run.visited.map(v=>{const s=stepById(r,v.id);
-  return `<div class="sumrow"><span class="chip ${v.result==='done'?'ok':'miss'}">${v.result==='done'?'✓ done':'✗ missed'}</span><span class="grow">${esc((s?s.title:'')||'untitled')}</span></div>`;}).join('');
+  return `<div class="sumrow"><span class="chip ${v.result==='done'?'ok':'miss'}">${v.result==='done'?'✓ done':'✗ missed'}</span><span class="grow">${esc((s?s.title:'')||'untitled')}</span>${v.result==='done'&&s&&+s.pts>0?`<span class="chip earn">+${+s.pts}</span>`:''}</div>`;}).join('');
+ const anyPts=(run.earned||0)>0||r.steps.some(s=>+s.pts>0);
  return topbarHTML()+`<div class="runscroll"><div class="wrap"><div class="card endcard fade">
   <div class="bigfinish">✓</div>
   <h1 class="rtitle">routine complete</h1>
   <p class="rdesc">rolled with the detours — that's the whole point.</p>
-  <div class="score"><div><b>${done}</b>done</div><div><b>${miss}</b>missed</div><div><b>${fmt(secs)}</b>total</div></div>
+  <div class="score">${anyPts?`<div><b>+${run.earned||0}</b>pts earned</div>`:''}<div><b>${done}</b>done</div><div><b>${miss}</b>missed</div><div><b>${fmt(secs)}</b>total</div></div>
+  ${anyPts?`<div class="mini" style="text-align:center;margin-top:-6px">points bank — ${bank} pts</div>`:''}
   <div class="sum">${rows||'<div class="sumrow">No steps logged</div>'}</div>
   <div class="btnrow"><button class="btn big" data-act="run-again">run again</button>
   <button class="btn ghost big" data-act="run-exit">back to checklist</button></div></div></div></div>`;
@@ -402,6 +435,7 @@ function render(keep=true){
  }
  ui._faded=true;observeFades();
  if(ui.pick&&!$('#emoOverlay'))document.body.insertAdjacentHTML('beforeend',emoHTML());
+ if(ui.x&&!$('#xOverlay'))document.body.insertAdjacentHTML('beforeend',xHTML());
 }
 function clearPick(){ui.pick=null;const m=$('#emoOverlay');if(m)m.remove();}
 function observeFades(){
@@ -453,10 +487,18 @@ document.addEventListener('click',e=>{
    else if(ui.pick&&ui.pick.sid){const s=stepById(r,ui.pick.sid);if(s)s.emoji=b.dataset.emo;}save();}
    clearPick();render(false);break;}
   case 'emo-cancel':clearPick();break;
+  case 'x-overlay':if(e.target.id==='xOverlay')closeX();break;
+  case 'x-close':closeX();break;
+  case 'x-export':{if(!r||!r.steps.length){toast('add some steps first');break;}ui.x={mode:'export',withImg:false,code:routineCode(r,false)};render(false);break;}
+  case 'x-import':ui.x={mode:'import'};render(false);break;
+  case 'x-copy':copyCode();break;
+  case 'x-share':if(ui.x&&typeof navigator!=='undefined'&&navigator.share)navigator.share({title:'branchy routine',text:ui.x.code}).catch(()=>{});break;
+  case 'x-import-go':{const nr=parseCode($('#xin')?$('#xin').value:'');
+   if(!nr){toast("couldn't read that code — is it the whole thing?");break;}
+   state.routines.push(nr);save();ui.rid=nr.id;ui.openId=null;closeX();clearInterval(tickId);tickId=null;run=null;ui.view='edit';render(false);toast('routine imported');break;}
   case 'run-done':advance('done');break;
   case 'run-miss':advance('missed');break;
-  case 'run-back':if(run&&run.visited.length){const last=run.visited.pop();run.current=last.id;run.finished=false;setDeadline();render(true);
-   if(!tickId)tickId=setInterval(tick,250);}break;
+  case 'run-back':undoStep();break;
   case 'run-exit':{clearInterval(tickId);tickId=null;run=null;ui.view='edit';render(false);break;}
   case 'run-again':startRun(R());break;
  }
@@ -472,9 +514,11 @@ document.addEventListener('input',e=>{
   const n=document.querySelector(`.stitle[data-tid="${s.id}"]`);if(n)n.textContent=s.title||'Untitled step';}
  else if(ty==='desc'){s.desc=t.value;save();}
  else if(ty==='min'){let v=parseFloat(t.value);if(isNaN(v))v=0;s.min=Math.max(0,Math.min(999,v));save();}
+ else if(ty==='pts'){let v=parseInt(t.value,10);if(isNaN(v))v=0;s.pts=Math.max(0,Math.min(99999,v));save();}
 });
 document.addEventListener('change',e=>{
  const t=e.target;
+ if(t.id==='ximg'){if(ui.x&&ui.x.mode==='export'&&R()){ui.x.withImg=t.checked;ui.x.code=routineCode(R(),t.checked);const tc=$('#xcode'),ts=$('#xsize');if(tc)tc.value=ui.x.code;if(ts)ts.textContent=sizeTxt(ui.x.code);}return;}
  if(t.matches('[data-img]')){const f=t.files&&t.files[0];const r=R(),s=r&&stepById(r,t.dataset.img);
   if(f&&s){shrink(f,d=>{s.img=d;save();render(false);toast('photo added');});}return;}
  const ch=t.dataset.chg;if(!ch)return;
@@ -485,6 +529,64 @@ document.addEventListener('change',e=>{
  if(ch==='done'){s.doneTarget=t.value;save();render(false);}
  else if(ch==='miss'){s.missedTarget=t.value;save();render(false);}
 });
+
+function closeX(){ui.x=null;const m=$('#xOverlay');if(m)m.remove();}
+function sizeTxt(c){return (c.length/1024).toFixed(1)+' kb'+(ui.x&&ui.x.withImg?' · with photos':' · no photos');}
+function routineCode(r,withImg){
+ const o={v:1,name:r.name||'',emoji:r.emoji||'',startId:r.startId||'',
+  steps:r.steps.map(s=>({id:s.id,title:s.title||'',desc:s.desc||'',emoji:s.emoji||'',img:withImg?(s.img||null):null,min:+s.min||0,pts:+s.pts||0,doneTarget:s.doneTarget||'',missedTarget:s.missedTarget||'',recovery:s.recovery?1:0}))};
+ try{
+  let b=btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+  b=b.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  return 'BRANCHY1.'+b;
+ }catch(e){return '';}
+}
+function parseCode(str){
+ str=String(str||'').trim();if(!str)return null;
+ let o=null;
+ const m=str.match(/BRANCHY1\.([A-Za-z0-9_-]+)/);
+ if(m){try{let b=m[1].replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';o=JSON.parse(decodeURIComponent(escape(atob(b))));}catch(e){return null;}}
+ else{try{o=JSON.parse(str);}catch(e){return null;}}
+ if(!o||!Array.isArray(o.steps)||!o.steps.length)return null;
+ const raw=o.steps.filter(s=>s&&s.id);
+ if(!raw.length)return null;
+ const nr={id:'r'+uid(),name:String(o.name||'Imported routine').slice(0,80),emoji:String(o.emoji||'🎯').slice(0,8),startId:null,
+  steps:raw.map(s=>({id:String(s.id).slice(0,16),title:String(s.title||'').slice(0,120),desc:String(s.desc||'').slice(0,2000),emoji:String(s.emoji||'✨').slice(0,8),
+   img:typeof s.img==='string'&&s.img.slice(0,10)==='data:image'?s.img:null,
+   min:Math.max(0,Math.min(999,parseFloat(s.min)||0)),pts:Math.max(0,Math.min(99999,parseInt(s.pts,10)||0)),
+   doneTarget:'',missedTarget:'',recovery:!!s.recovery}))};
+ const has=id=>nr.steps.some(s=>s.id===id);
+ nr.steps.forEach((s,i)=>{const d=raw[i].doneTarget?String(raw[i].doneTarget):'';s.doneTarget=(d==='END'||has(d))?d:'';
+  const mt=raw[i].missedTarget?String(raw[i].missedTarget):'';s.missedTarget=(mt==='END'||has(mt))?mt:'';});
+ nr.startId=(o.startId&&has(o.startId))?o.startId:nr.steps[0].id;
+ return nr;
+}
+function copyCode(){
+ const ta=$('#xcode');if(!ta)return;
+ const done=()=>toast('code copied — paste it on your phone');
+ try{ta.focus();ta.select();ta.setSelectionRange(0,ta.value.length);}catch(e){}
+ let fell=false;
+ try{fell=document.execCommand('copy');}catch(e){}
+ if(typeof navigator!=='undefined'&&navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(done,()=>{if(fell)done();else toast('select the code and copy manually');});}
+ else if(fell)done();else toast('select the code and copy manually');
+}
+function xHTML(){
+ const x=ui.x,canShare=typeof navigator!=='undefined'&&!!navigator.share;
+ if(x.mode==='export')return `<div class="emodal" id="xOverlay" data-act="x-overlay"><div class="card">
+  <b>save / share this routine</b>
+  <div class="mini" style="margin:6px 0 12px">send this code to your phone (notes, imessage, whatever) and import it there. photos make the code huge.</div>
+  <label class="chkrow"><input type="checkbox" id="ximg"${x.withImg?' checked':''}><span>include photos</span></label>
+  <textarea id="xcode" readonly>${esc(x.code)}</textarea>
+  <div class="mini" id="xsize" style="margin:6px 0 0">${sizeTxt(x.code)}</div>
+  <div class="btnrow">${canShare?'<button class="btn big" data-act="x-share">share</button>':''}<button class="btn${canShare?' ghost big':' big'}" data-act="x-copy">copy code</button></div>
+  <div style="margin-top:10px;text-align:right"><button class="btn ghost sm" data-act="x-close">close</button></div></div></div>`;
+ return `<div class="emodal" id="xOverlay" data-act="x-overlay"><div class="card">
+  <b>import a routine</b>
+  <div class="mini" style="margin:6px 0 12px">paste a branchy code (or an exported json) below.</div>
+  <textarea id="xin" placeholder="BRANCHY1.…"></textarea>
+  <div class="btnrow"><button class="btn big" data-act="x-import-go">import</button></div>
+  <div style="margin-top:10px;text-align:right"><button class="btn ghost sm" data-act="x-close">close</button></div></div></div>`;
+}
 /* ================= emo dih ================= */
 function emoHTML(){
  const list=ui.pick.kind==='routine'?ROUT_EMO:STEPS_EMO;
@@ -492,7 +594,7 @@ function emoHTML(){
   <div class="egrid">${list.map(x=>`<button data-act="emo-set" data-emo="${x}">${x}</button>`).join('')}</div>
   <div style="margin-top:10px;text-align:right"><button class="btn ghost sm" data-act="emo-cancel">Cancel</button></div></div></div>`;
 }
-
+=
 render(false);
 </script>
 </body>
